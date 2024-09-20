@@ -1,0 +1,48 @@
+
+.cardinfo-container {
+    margin-top: 1.75rem;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+  
+  @media (min-width: 768px) {
+    .cardinfo-container {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+  
+  .card {
+    padding: 1.75rem;
+    border: 1px solid #e5e7eb; 
+    border-radius: 0.5rem; 
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .title {
+    font-size: 0.875rem; 
+    margin-bottom: 0.25rem;
+  }
+  
+  .amount {
+    font-weight: bold; 
+    font-size: 2rem; 
+  }
+  
+  .card-icon {
+    background-color: #3b82f6; 
+    padding: 0.75rem;
+    width: 3rem; 
+    border-radius: 9999px; 
+    color: white;
+  }
+  
+  .amount-in{
+    color: green;
+  }
+
+  .amount-ex{
+    color: red;
+  }
