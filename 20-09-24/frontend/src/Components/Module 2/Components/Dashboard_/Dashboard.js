@@ -67,7 +67,6 @@ const Dashboard = () => {
     setYear(year);
   };
 
-  // Sliding right to the previous month
   const handleSlideRight = () => {
     if (month === 1) {
       setMonth(12);
@@ -77,7 +76,6 @@ const Dashboard = () => {
     }
   };
 
-  // Sliding left to the next month
   const handleSlideLeft = () => {
     if (month === 12) {
       setMonth(1);
@@ -140,7 +138,7 @@ const Dashboard = () => {
       </div>
 
       <History
-        filteredtransactionHistory={filteredtransactionHistory}
+        filteredtransactionHistory={ filteredtransactionHistory }
         flag={flag}
       />
     </div>
