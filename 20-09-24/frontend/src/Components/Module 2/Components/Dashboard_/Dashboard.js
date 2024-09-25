@@ -10,7 +10,6 @@ import './dashboard.css';
 const Dashboard = () => {
   const [name, setName] = useState('');
   const URL = 'http://localhost:3001/api/v1/';
-
   const getName = async () => {
     try {
       const userId = localStorage.getItem('userId');
@@ -30,14 +29,17 @@ const Dashboard = () => {
   }, []);
 
   const { getMonthlyTransactions } = useGlobalContext();
-
+  
   const currentMonth = new Date().getMonth() + 1;
   const currentYear = new Date().getFullYear();
-
+  
   const [sortBy, setSortBy] = useState(localStorage.getItem('sortBy') || 'custom');
   const [month, setMonth] = useState(Number(localStorage.getItem('month')) || currentMonth);
   const [year, setYear] = useState(Number(localStorage.getItem('year')) || currentYear);
   const [flag, setFlag] = useState(localStorage.getItem('sortBy') !== 'all');
+
+  const [chartMonth, setChartMonth] = useState(currentMonth);
+  const [chartYear, setChartYear] = useState(currentYear);
 
   useEffect(() => {
     localStorage.setItem('sortBy', sortBy);
@@ -68,20 +70,20 @@ const Dashboard = () => {
   };
 
   const handleSlideRight = () => {
-    if (month === 1) {
-      setMonth(12);
-      setYear(year - 1);
+    if (chartMonth === 1) {
+      setChartMonth(12);
+      setChartYear(chartYear - 1);
     } else {
-      setMonth(month - 1);
+      setChartMonth(chartMonth - 1);
     }
   };
 
   const handleSlideLeft = () => {
-    if (month === 12) {
-      setMonth(1);
-      setYear(year + 1);
+    if (chartMonth === 12) {
+      setChartMonth(1);
+      setChartYear(chartYear + 1);
     } else {
-      setMonth(month + 1);
+      setChartMonth(chartMonth + 1);
     }
   };
 
@@ -94,8 +96,7 @@ const Dashboard = () => {
     filteredtransactionHistory
   } = getMonthlyTransactions(month, year);
 
-  console.log('Filtered Incomes:', filteredIncomes);
-  console.log('Filtered Expenses:', filteredExpenses);
+  const chartTransactions = getMonthlyTransactions(chartMonth, chartYear);
 
   return (
     <div className="InnerLayout">
@@ -127,18 +128,21 @@ const Dashboard = () => {
 
       <div className="bar-chart-navigation">
         <div className='bar-chart-btn'>
-        <button className="previous-btn" onClick={handleSlideRight}>Previous Month</button>
-        <button className="next-btn" onClick={handleSlideLeft}>Next Month</button>
+          <button className="bar-chart-nav-btn" onClick={handleSlideRight}>←</button>
+          <span className="month-display">
+            {new Date(chartYear, chartMonth - 1).toLocaleString('default', { month: 'long' })}
+          </span>
+          <button className="bar-chart-nav-btn" onClick={handleSlideLeft}>→</button>
         </div>
         <BarChartComponent
-          incomeData={filteredIncomes}
-          expenseData={filteredExpenses}
+          incomeData={chartTransactions.filteredIncomes}
+          expenseData={chartTransactions.filteredExpenses}
           flag={flag}
         />
       </div>
 
       <History
-        filteredtransactionHistory={ filteredtransactionHistory }
+        filteredtransactionHistory={filteredtransactionHistory}
         flag={flag}
       />
     </div>

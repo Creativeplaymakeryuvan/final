@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import './cardinfo.css';
 import { useGlobalContext } from '../../Context/globalContext';
 
-function Cardinfo({ totalMonthlyIncome, totalMonthlyExpenses, balance, flag }) {
+function Cardinfo({ totalMonthlyIncome, totalMonthlyExpenses, balance, flag, barFlag }) {
     const { totalExpenses, totalIncomes, totalBalance, getIncomes, getExpenses } = useGlobalContext()
     useEffect(() => {
         getIncomes()
@@ -15,7 +15,7 @@ function Cardinfo({ totalMonthlyIncome, totalMonthlyExpenses, balance, flag }) {
             <div className="card">
                 <div>
                     <h2 className="title title-in">Total Income</h2>
-                    <h2 className="amount amount-in">₹{ flag ? totalMonthlyIncome : totalIncomes() }</h2>
+                    <h2 className="amount amount-in">₹{ flag  ? totalMonthlyIncome : totalIncomes() }</h2>
                 </div>
             </div>
             <div className="card">

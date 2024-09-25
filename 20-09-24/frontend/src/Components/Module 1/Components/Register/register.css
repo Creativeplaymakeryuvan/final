@@ -111,6 +111,7 @@ img, video{
       margin: auto;
       border-radius: 10px;
       overflow: hidden; 
+      left: -10px;
 
       video{
         position: absolute;

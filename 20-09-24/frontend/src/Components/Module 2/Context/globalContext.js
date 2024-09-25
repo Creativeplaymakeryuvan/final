@@ -9,8 +9,6 @@ export const GlobalProvider = ({ children }) => {
 
     const [incomes, setIncomes] = useState([])
     const [expenses, setExpenses] = useState([])
-    const [fill_in, setFill_in] = useState([])
-    const [fill_ex, setFill_ex] = useState([])
     const [error, setError] = useState(null)
 
     // for Income
@@ -136,9 +134,9 @@ export const GlobalProvider = ({ children }) => {
             const date = inference.prediction.date?.value || 'Date not available';
             const totalItemsPurchased = inference.prediction.lineItems?.length || 0;
             const description = inference.prediction.lineItems?.map((item, index) => ({
-                item: item.description?.value || `Item ${index + 1}`,
-                quantity: item.quantity?.value || 'N/A',
-                price: item.totalAmount?.value || 'N/A',
+                item: item.description || `Item ${index + 1}`,
+                quantity: item.quantity|| 'N/A',
+                price: item.totalAmount || 'N/A',
             })) || [];
             const title = inference.prediction.supplierName?.value || 'Store name not available';
 

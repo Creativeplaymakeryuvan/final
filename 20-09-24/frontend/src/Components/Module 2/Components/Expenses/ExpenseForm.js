@@ -9,10 +9,12 @@ function ExpenseForm() {
   const { addExpense, getExpenses, error, setError, processBillImage } = useGlobalContext();
   const userId = localStorage.getItem('userId');
 
+  const currentDate = new Date().toISOString().split('T')[0]; 
+
   const [inputState, setInputState] = useState({
     title: '',
     amount: '',
-    date: null,
+    date: currentDate,
     category: '',
     subCategory: '',
     description: '',

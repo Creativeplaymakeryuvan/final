@@ -4,21 +4,22 @@ import avatar from '../../img/avatar.png';
 import { useGlobalContext } from '../../Context/globalContext';
 import { menuitems } from '../../Utils/menuitems';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 function Navigation({ active, setActive }) {
-    
     const [name, setName] = useState('');
-    const URL = 'http://localhost:3001/api/v1/'; // Define your URL or base URL here
+    const URL = 'http://localhost:3001/api/v1/';
+    const navigate = useNavigate();
 
     const getName = async () => {
         try {
             const userId = localStorage.getItem('userId');
             const response = await axios.get(`${URL}getName`, {
                 headers: {
-                    'user-id': userId // Send userId in the headers
+                    'user-id': userId
                 }
             });
-            setName(response.data.name); // Assuming the API returns an object with a "name" property
+            setName(response.data.name);
         } catch (error) {
             console.error('Error fetching name:', error);
         }
@@ -26,7 +27,12 @@ function Navigation({ active, setActive }) {
 
     useEffect(() => {
         getName();
-    }, []); // Empty dependency array to run only once on component mount
+    }, []);
+
+    const handleSignOut = () => {
+        localStorage.removeItem('userId');
+        navigate('/login');
+    };
 
     return (
         <div className='navigation-div'>
@@ -51,8 +57,10 @@ function Navigation({ active, setActive }) {
                 })}
             </ul>
             <div className="bottom-nav">
-                <li><a href='/'>
-                  <i className="fa-solid fa-right-from-bracket"></i> Sign Out</a>
+                <li>
+                    <a href='/' onClick={handleSignOut}>
+                        <i className="fa-solid fa-right-from-bracket"></i> Sign Out
+                    </a>
                 </li>
             </div>
         </div>
