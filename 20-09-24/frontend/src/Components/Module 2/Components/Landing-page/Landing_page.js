@@ -8,6 +8,7 @@ import Income from '../Incomes/Income'
 import Expenses from '../Expenses/Expenses'
 import { useState } from 'react';
 import { useGlobalContext } from '../../Context/globalContext'
+import Budget from '../../../Module 3/components/Budget/Budjet'
 
 
 function Landing_page() {
@@ -22,10 +23,12 @@ function Landing_page() {
       case 1:
         return <Dashboard />
       case 2:
+        return <Budget />
+      case 3:
         return <Transaction />
-      case 3: 
+      case 4: 
         return <Income />
-      case 4:
+      case 5:
         return <Expenses />
       default:
         return <Dashboard />
