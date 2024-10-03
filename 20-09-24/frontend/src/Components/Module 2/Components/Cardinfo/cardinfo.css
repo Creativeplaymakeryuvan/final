@@ -9,6 +9,7 @@
   @media (min-width: 768px) {
     .cardinfo-container {
       grid-template-columns: repeat(3, 1fr);
+      grid-column: 1 / 4;
     }
   }
   
@@ -27,8 +28,8 @@
   }
   
   .amount {
-    font-weight: bold; 
-    font-size: 2rem; 
+    font-size: 2.2rem;
+    font-weight: 700;
   }
   
   .card-icon {

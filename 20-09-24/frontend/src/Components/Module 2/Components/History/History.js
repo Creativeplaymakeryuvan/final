@@ -7,8 +7,9 @@ function History({ filteredtransactionHistory, flag }) {
   const [...history] = flag ? filteredtransactionHistory : transactionHistory()
 
   return (
+    <div><h2>Recent History</h2>
     <div className='history-div'>
-      <h2>Recent History</h2>
+      
       {history.map((item) => {
         const { _id, title, amount, type } = item
         return (
@@ -28,6 +29,7 @@ function History({ filteredtransactionHistory, flag }) {
           </div>
         )
       })}
+    </div>
     </div>
   )
 }

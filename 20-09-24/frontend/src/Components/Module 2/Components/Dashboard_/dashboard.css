@@ -88,3 +88,17 @@
     font-size: calc(1rem + 0.4vw);
   }
 }
+
+.card-stats-con{
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 2rem;
+  .chart-con {
+    grid-column: 1 / 5;
+    height: 400px;
+  }
+  .cardinfo-container{
+    gap: 2rem;
+    margin-top: -3rem;
+  }
+}

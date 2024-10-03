@@ -59,7 +59,7 @@ function Budjet() {
         <div className="InnerLayout">
             <h2 className="budget-header my-4">Budgets</h2>
             <div className="row">
-                {/* Render each budget as a card */}
+                {/* Render each budget card */}
                 {budgets.map(budget => {
                     // Calculate total expenses and count
                     const totalSpent = budget.expenses ? budget.expenses.reduce((acc, expense) => acc + expense.amount, 0) : 0;
@@ -70,7 +70,7 @@ function Budjet() {
                     const percentageSpent = budget.amount ? (totalSpent / budget.amount) * 100 : 0;
 
                     return (
-                        <div className="col-md-4 mb-3" key={budget._id}>
+                        <div className="col-md-4 mb-3 " key={budget._id}>
                             <Card className="budget-card">
                                 <Card.Body>
                                     <div className="budget-amount">
@@ -109,7 +109,7 @@ function Budjet() {
 
             {/* Modal for creating a new budget */}
             <Modal show={showModal} onHide={() => setShowModal(false)}>
-                <Modal.Header closeButton>
+                <Modal.Header  className='budget-model-headder'closeButton>
                     <Modal.Title>Create Budget</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
@@ -129,6 +129,7 @@ function Budjet() {
                             <Form.Control 
                                 type="number" 
                                 placeholder="Enter budget amount" 
+                                required={true}
                                 value={newBudgetAmount}
                                 onChange={(e) => setNewBudgetAmount(e.target.value)}
                             />
@@ -136,7 +137,12 @@ function Budjet() {
                     </Form>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button variant="secondary" onClick={() => setShowModal(false)}>
+                    <Button variant="secondary" onClick={() => {
+                       setShowModal(false)
+                       setNewBudgetName('')
+                       setNewBudgetAmount('')
+                    }
+                     }>
                         Close
                     </Button>
                     <Button variant="primary" onClick={handleCreateBudget}>

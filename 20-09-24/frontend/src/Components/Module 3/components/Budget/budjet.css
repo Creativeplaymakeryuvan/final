@@ -4,16 +4,17 @@
 }
 
 .budget-card {
-    position: relative; /* For absolute positioning of amount */
-    border: 1px solid #ced4da; /* Light border for the card */
-    border-radius: 8px; /* Rounded corners */
-    overflow: hidden; /* Prevents content overflow */
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow effect */
-    transition: transform 0.2s; /* Smooth hover effect */
+    position: relative; 
+    border: 1px solid #ced4da; 
+    border-radius: 8px; 
+    overflow: hidden; 
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); 
+    transition: transform 0.2s; 
+    background: #F5F5F5;
 }
 
  .budget-card:hover {
-    transform: translateY(-5px); /* Lift effect on hover */
+    transform: translateY(-5px); 
  }
 
 .budget-card-title {
@@ -72,8 +73,8 @@
     justify-content: space-between;
 }
 .progress-bar-wrapper {
-    width: 161%; /* Adjust the width as needed */
-    margin-top: 10px; /* Optional: Add some margin above the progress bar */
+    width: 161%; 
+    margin-top: 10px; 
     margin-left: -30%;
     height: 10px;
     position: relative;
@@ -91,13 +92,16 @@
 }
 
 .budget-card-title {
-    font-weight: bold; /* Optional: make the title bold */
+    font-weight: bold;
     margin-left: -45px;
 }
 
 .budget-details {
-    margin-left: -45px; /* Optional: Add some space between title and item count */
-    font-size: 0.9rem; /* Optional: smaller font size for item count */
-    color: gray; /* Optional: change color to differentiate */
+    margin-left: -45px; 
+    font-size: 0.9rem; 
+    color: gray; 
 }
 
+.budget-model-headder{
+    /* background-color: #222260; */
+}
