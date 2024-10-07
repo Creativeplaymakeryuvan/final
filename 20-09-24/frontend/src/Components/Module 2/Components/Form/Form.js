@@ -55,7 +55,7 @@ function Form() {
     setInputState({
       title: '',
       amount: '',
-      date: null,
+      date: currentDate,
       category: '',
       subCategory: '',
       description: '',

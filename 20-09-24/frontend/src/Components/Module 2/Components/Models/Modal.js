@@ -13,6 +13,7 @@ const categoriesData = {
   },
   expense: {
     education: ['Tuition', 'Books', 'Supplies'],
+    food: ['Restaurants', 'Snacks', 'Beverages'],
     groceries: ['Fruits', 'Vegetables', 'Dairy'],
     health: ['Medicine', 'Consultation', 'Fitness'],
     subscriptions: ['Streaming', 'Magazines', 'Memberships'],

@@ -37,7 +37,7 @@
   align-items: center;
   justify-content: space-between;
   background-color: #f8f9fa;
-  padding: 4px 10px;
+  padding: 5px 10px;
   border-radius: 20px;
   border: 1px solid #ddd;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
@@ -51,7 +51,7 @@
 }
 
 .bar-chart-nav-btn {
-  background-color: #007bff;
+  background-color: #5ab2b9;
   color: white;
   border: none;
   padding: 6px 10px;

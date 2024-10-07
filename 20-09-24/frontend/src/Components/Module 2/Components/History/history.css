@@ -5,6 +5,7 @@
     height: calc(3 * 90px);
     /* Adjust height based on the item size (e.g., 80px per item) */
     overflow: scroll;
+    overflow-y: hidden;
     padding: 10px;
 
     .history-item {

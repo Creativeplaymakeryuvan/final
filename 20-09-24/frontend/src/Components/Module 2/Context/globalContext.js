@@ -62,6 +62,7 @@ export const GlobalProvider = ({ children }) => {
     // for Expense
 
     const addExpense = async (expense) => {
+        console.log('expese:='+expense)
         const response = await axios.post(`${URL}add-expense`, expense)
             .then(() => {
                 alert('Expense added')

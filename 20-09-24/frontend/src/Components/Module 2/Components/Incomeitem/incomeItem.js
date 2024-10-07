@@ -6,6 +6,7 @@ import { FaCommentDots, FaTrash, FaRupeeSign, FaRegEye } from "react-icons/fa";
 import { MdLocalGroceryStore } from "react-icons/md";
 import { dateFormet } from '../../Utils/dateFormet';
 import { BiCategory } from "react-icons/bi";
+import { MdFastfood } from "react-icons/md";
 import UpdateModal from '../Models/Modal';
 import { useGlobalContext } from '../../Context/globalContext';
 
@@ -77,6 +78,11 @@ const IncomeItem = ({
       case 'Vegetables':
       case 'Dairy':
         return <i><MdLocalGroceryStore /></i>;
+      case 'food':
+      case 'Restaurants':
+      case 'Snacks':
+      case 'Beverages':
+        return <i><MdFastfood /></i>
       case 'health':
       case 'Medicine':
       case 'Consultation':
@@ -141,7 +147,9 @@ const IncomeItem = ({
               <p>{<FaRupeeSign />} {amount}</p>
               <p>{<SlCalender />} {dateFormet(date)}</p>
               <p>{<BiCategory />}{spilt_category}</p>
-              <p>{<FaCommentDots />} {description}</p>
+              <p className='item-description'>
+                {<FaCommentDots />} {description.length > 5 ? `${description.substring(0, 5)}...` : description}
+              </p>
             </div>
             <div className="btn-con">
               <Button

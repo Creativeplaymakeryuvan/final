@@ -1,4 +1,4 @@
-
+import { GrMoney } from "react-icons/gr";
 export const menuitems = [
     {
         id: 1,
@@ -9,7 +9,7 @@ export const menuitems = [
     {
         id: 2,
         title: 'Budgets',
-        icon: <i className="fa-solid fa-credit-card"></i>,
+        icon: <i><GrMoney /></i>,
         link: '/dashboard'
     },
     {

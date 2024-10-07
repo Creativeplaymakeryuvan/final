@@ -11,6 +11,7 @@ import './dashboard.css';
 const Dashboard = () => {
   const [name, setName] = useState('');
   const URL = 'http://localhost:3001/api/v1/';
+  
   const getName = async () => {
     try {
       const userId = localStorage.getItem('userId');
@@ -52,8 +53,8 @@ const Dashboard = () => {
     setSortBy(selectedSort);
 
     if (selectedSort === 'all') {
-      setMonth(null);
-      setYear(null);
+      setMonth(month);
+      setYear(year);
       setFlag(false);
     } else {
       setMonth(currentMonth);
@@ -71,20 +72,20 @@ const Dashboard = () => {
   };
 
   const handleSlideRight = () => {
-    if (chartMonth === 1) {
-      setChartMonth(12);
-      setChartYear(chartYear - 1);
+    if (month === 1) {
+      setMonth(12);
+      setYear(year - 1);
     } else {
-      setChartMonth(chartMonth - 1);
+      setMonth(month - 1);
     }
   };
 
   const handleSlideLeft = () => {
-    if (chartMonth === 12) {
-      setChartMonth(1);
-      setChartYear(chartYear + 1);
+    if (month === 12) {
+      setMonth(1);
+      setYear(year + 1);
     } else {
-      setChartMonth(chartMonth + 1);
+      setMonth(month + 1);
     }
   };
 
@@ -97,7 +98,7 @@ const Dashboard = () => {
     filteredtransactionHistory
   } = getMonthlyTransactions(month, year);
 
-  const chartTransactions = getMonthlyTransactions(chartMonth, chartYear);
+  const chartTransactions = getMonthlyTransactions(month, year);
 
   return (
     <div className="InnerLayout">
@@ -122,11 +123,19 @@ const Dashboard = () => {
         <div className="chart-con">
           <div className="bar-chart-navigation">
             <div className='bar-chart-btn'>
-              <button className="bar-chart-nav-btn" onClick={handleSlideRight}>←</button>
+              <button
+                className="bar-chart-nav-btn"
+                onClick={handleSlideRight}
+                disabled={sortBy === 'all'}
+              >←</button>
               <span className="month-display">
-                {new Date(chartYear, chartMonth - 1).toLocaleString('default', { month: 'long' })}
+                {new Date(year, month - 1).toLocaleString('default', { month: 'long' })}
               </span>
-              <button className="bar-chart-nav-btn" onClick={handleSlideLeft}>→</button>
+              <button
+                className="bar-chart-nav-btn"
+                onClick={handleSlideLeft}
+                disabled={sortBy === 'all'}
+              >→</button>
             </div>
             <BarChartComponent
               incomeData={chartTransactions.filteredIncomes}
@@ -147,15 +156,11 @@ const Dashboard = () => {
             flag={flag}
           />
           <PieChart className="pie-chart-container"
-          incomeData={chartTransactions.totalMonthlyIncome}
-          expenseData={chartTransactions.totalMonthlyExpenses}
-          flag={flag}
-        />
+            incomeData={chartTransactions.totalMonthlyIncome}
+            expenseData={chartTransactions.totalMonthlyExpenses}
+            flag={flag}
+          />
         </div>
-
-
-        
-
       </div>
     </div>
   );

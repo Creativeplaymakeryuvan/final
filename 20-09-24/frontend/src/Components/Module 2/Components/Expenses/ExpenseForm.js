@@ -32,6 +32,7 @@ function ExpenseForm() {
   const categoriesData = {
     education: ['Tuition', 'Books', 'Supplies'],
     groceries: ['Fruits', 'Vegetables', 'Dairy'],
+    food: ['Restaurants', 'Snacks', 'Beverages'],
     health: ['Medicine', 'Consultation', 'Fitness'],
     subscriptions: ['Streaming', 'Magazines', 'Memberships'],
     clothing: ['Shirts', 'Pants', 'Accessories'],
@@ -55,14 +56,13 @@ function ExpenseForm() {
     e.preventDefault();
     const finalCategory = subCategory ? `${category} - ${subCategory}` : category;
     const finalInputState = { ...inputState, category: finalCategory };
-
     addExpense(finalInputState);
     getExpenses();
 
     setInputState({
       title: '',
       amount: '',
-      date: null,
+      date: currentDate,
       category: '',
       subCategory: '',
       description: '',

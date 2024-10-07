@@ -65,7 +65,7 @@ const ExpenseEntrySchema = new Schema({
     description: {
         type: String,
         required: true,
-        maxLength: 40,
+        maxLength: 200,
         trim: true
     },
     category: {

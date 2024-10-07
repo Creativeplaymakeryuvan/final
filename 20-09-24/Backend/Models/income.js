@@ -74,7 +74,7 @@ const IncomeEntrySchema = new Schema({
     description: {
         type: String,
         required: true,
-        maxLength: 20,
+        maxLength: 200,
         trim: true
     },
     category: {
