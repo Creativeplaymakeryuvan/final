@@ -111,8 +111,24 @@ function ExpenseForm() {
 
   const handleUpdateSubmit = (updatedBillData) => {
     console.log('Updated Bill Data:', updatedBillData);
-    setShowUpdateModal(false);
-  };
+      const descriptionString = updatedBillData.description
+      .map(({ item, quantity, price }) => `${item}-Q:${quantity}-Rs:${price}`)
+      .join('\n');
+
+    const expenseData = {
+      title: updatedBillData.title,
+      amount: updatedBillData.amount,
+      date: updatedBillData.date,
+      category: updatedBillData.category,
+      subCategory: updatedBillData.subCategory,
+      description: descriptionString,
+      userId: userId,
+    };
+
+
+    addExpense(expenseData);
+        setShowUpdateModal(false);
+      };
 
   return (
     <div>
