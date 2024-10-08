@@ -6,7 +6,7 @@ import { FaTrashCan } from "react-icons/fa6";
 import { FaPen } from "react-icons/fa";
 import { dateFormet } from '../../Utils/dateFormet';
 import UpdateModal from '../Models/Modal';
-import { FaExclamationTriangle } from "react-icons/fa"; // Import an icon for no data
+import { FaExclamationTriangle } from "react-icons/fa";
 
 const ITEMS_PER_PAGE = 10;
 
@@ -17,6 +17,9 @@ function Transaction() {
     const [showModal, setShowModal] = useState(false);
     const [currentData, setCurrentData] = useState(null);
     const [currentPage, setCurrentPage] = useState(0);
+    const [sortType, setSortType] = useState('both'); // 'income', 'expense', 'both'
+    const [sortDate, setSortDate] = useState('none'); // 'recent', 'oldest', 'none'
+    const [sortAmount, setSortAmount] = useState('none'); // 'high', 'low', 'none'
 
     const handleClose = () => setShowModal(false);
 
@@ -35,9 +38,33 @@ function Transaction() {
     };
 
     const transactions = transactionHistory();
-    const totalPages = Math.ceil(transactions.length / ITEMS_PER_PAGE);
 
-    const currentTransactions = transactions.slice(
+    let sortedTransactions = transactions.filter((trans) => {
+        if (sortType === 'both') return true;
+        return trans.type === sortType;
+    });
+
+    if (sortDate !== 'none') {
+        sortedTransactions = sortedTransactions.sort((a, b) => {
+            if (sortDate === 'recent') {
+                return new Date(b.date) - new Date(a.date); 
+            }
+            return new Date(a.date) - new Date(b.date); 
+        });
+    }
+
+    if (sortAmount !== 'none') {
+        sortedTransactions = sortedTransactions.sort((a, b) => {
+            if (sortAmount === 'high') {
+                return b.amount - a.amount;
+            }
+            return a.amount - b.amount;
+        });
+    }
+
+    const totalPages = Math.ceil(sortedTransactions.length / ITEMS_PER_PAGE);
+
+    const currentTransactions = sortedTransactions.slice(
         currentPage * ITEMS_PER_PAGE,
         (currentPage + 1) * ITEMS_PER_PAGE
     );
@@ -56,7 +83,35 @@ function Transaction() {
 
     return (
         <div className='InnerLayout'>
-            <h2>All Transactions</h2>
+            <div className='header-container'>
+                <h2>All Transactions</h2>
+                {/* Sorting */}
+                <div className='sorting-controls'>
+                    <div>
+                        <label>Sort by Type:</label>
+                        <select value={sortType} onChange={(e) => setSortType(e.target.value)}>
+                            <option value="both">Both</option>
+                            <option value="income">Income</option>
+                            <option value="expense">Expense</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label>Sort by Date:</label>
+                        <select value={sortDate} onChange={(e) => setSortDate(e.target.value)}>
+                            <option value="recent">Recent First</option>
+                            <option value="oldest">Oldest First</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label>Sort by Amount:</label>
+                        <select value={sortAmount} onChange={(e) => setSortAmount(e.target.value)}>
+                            <option value="none">None</option>
+                            <option value="high">High to Low</option>
+                            <option value="low">Low to High</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
 
             {transactions.length === 0 ? (
                 <div className="no-data">

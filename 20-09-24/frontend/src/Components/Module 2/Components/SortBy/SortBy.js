@@ -14,7 +14,7 @@ const SortBy = ({
     <div>
       <div className="sort-by">
         <select id="sortBy" value={sortBy} onChange={(e) => handleSortByChange(e.target.value)}>
-          <option value="all">All</option>
+      
           <option value="custom">Monthly</option>
         </select>
       </div>

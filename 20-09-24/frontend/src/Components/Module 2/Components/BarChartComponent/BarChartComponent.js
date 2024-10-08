@@ -11,8 +11,8 @@ const BarChartComponent = ({ incomeData, expenseData, flag }) => {
 
     const formatDate = (dateString) => {
         const date = new Date(dateString);
-        const options = { day: '2-digit', weekday: 'short' };
-        return date.toLocaleDateString('en-US', options).replace(',', ''); // Format as desired
+        const options = { day: '2-digit'};
+        return date.toLocaleDateString('en-US', options).replace(',', ''); 
     };
 
     const chartData = [

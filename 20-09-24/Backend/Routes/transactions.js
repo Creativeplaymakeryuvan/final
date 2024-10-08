@@ -23,6 +23,6 @@ router.get('/getName', getName)
     .get('/get-budgets/:userId', getBudgets)
     .delete('/delete-budget/:userId/:budgetId', deleteBudget)
     .get('/get-budget-expenses/:userId/:budgetId', getExpensesForBudget) 
-    .delete('/delete-budget-expense/:userId/:budgetId/:expenseId', deleteBudgetExpense); // Delete a specific expense from a budget
+    .delete('/delete-budget-expense/:userId/:budgetId/:expenseId', deleteBudgetExpense); 
 
 module.exports = router
