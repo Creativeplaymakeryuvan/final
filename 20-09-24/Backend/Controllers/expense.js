@@ -130,18 +130,15 @@ exports.updateExpense = async (req, res) => {
 exports.processBillImage = async (req, res) => {
     const mindeeClient = new mindee.Client({ apiKey: '1af6c810e08b28f6083bcfa49e0e6091' });
     try {
-        const fileBuffer = req.file.buffer; // Get the file buffer from multer
+        const fileBuffer = req.file.buffer;
 
-        // Create a document from the file buffer
         const inputSource = mindeeClient.docFromBuffer(fileBuffer, req.file.originalname);
 
-        // Parse the file using the ReceiptV5 API
         const apiResponse = await mindeeClient.parse(
             mindee.product.ReceiptV5,
             inputSource
         );
 
-        // Send parsed data back in JSON format
         res.status(200).json(apiResponse.document);
     } catch (error) {
         console.error('Error processing bill image:', error);

@@ -89,7 +89,7 @@ const UpdateModal = ({ show, handleClose, currentData, onSubmit, isEditable = tr
               value={updatedData.title}
               onChange={handleChange}
               required
-              disabled={!isEditable}  // Disable if not editable
+              disabled={!isEditable}
             />
           </Form.Group>
 
@@ -101,7 +101,7 @@ const UpdateModal = ({ show, handleClose, currentData, onSubmit, isEditable = tr
               value={updatedData.amount}
               onChange={handleChange}
               required
-              disabled={!isEditable}  // Disable if not editable
+              disabled={!isEditable} 
             />
           </Form.Group>
 
@@ -113,7 +113,7 @@ const UpdateModal = ({ show, handleClose, currentData, onSubmit, isEditable = tr
               value={updatedData.category}
               onChange={handleChange}
               required
-              disabled={!isEditable}  // Disable if not editable
+              disabled={!isEditable} 
             >
               <option value="" disabled>Select Category</option>
               {Object.keys(categoryOptions).map((category, index) => (
@@ -154,7 +154,7 @@ const UpdateModal = ({ show, handleClose, currentData, onSubmit, isEditable = tr
                   .map(
                     (desc) => `${desc.item} - Quantity: ${desc.quantity}, Price: ${desc.price}`
                   )
-                  .join('\n') // Join with new lines to display each object on a new line
+                  .join('\n') + `\nTax: Rs.${currentData.tax || 0}`
                 : updatedData.description}
               onChange={handleChange}
               rows={4}

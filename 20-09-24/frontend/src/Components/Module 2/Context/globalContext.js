@@ -131,9 +131,11 @@ export const GlobalProvider = ({ children }) => {
                 }
             });
             const { inference } = response.data;
+            console.log(inference)
             const amount = inference.prediction.totalAmount?.value || 'Amount not available';
             const date = inference.prediction.date?.value || 'Date not available';
             const totalItemsPurchased = inference.prediction.lineItems?.length || 0;
+            const tax = inference.prediction.totalTax?.value || 0;
             const description = inference.prediction.lineItems?.map((item, index) => ({
                 item: item.description || `Item ${index + 1}`,
                 quantity: item.quantity|| 'N/A',
@@ -147,6 +149,7 @@ export const GlobalProvider = ({ children }) => {
                 totalItemsPurchased,
                 description,
                 title,
+                tax
             };
 
             // console.log('Total Amount:', amount);

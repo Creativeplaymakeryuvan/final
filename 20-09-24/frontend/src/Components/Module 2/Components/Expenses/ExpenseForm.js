@@ -111,9 +111,11 @@ function ExpenseForm() {
 
   const handleUpdateSubmit = (updatedBillData) => {
     console.log('Updated Bill Data:', updatedBillData);
+      const tax = updatedBillData.tax
       const descriptionString = updatedBillData.description
       .map(({ item, quantity, price }) => `${item}-Q:${quantity}-Rs:${price}`)
-      .join('\n');
+      .join('\n') + `\nTax-Rs:${tax}`;
+
 
     const expenseData = {
       title: updatedBillData.title,

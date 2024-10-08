@@ -3,7 +3,6 @@
     flex-direction: column;
     gap: 1rem;
     height: calc(3 * 90px);
-    /* Adjust height based on the item size (e.g., 80px per item) */
     overflow: scroll;
     overflow-y: hidden;
     padding: 10px;
@@ -32,4 +31,23 @@
 
 .history-div::-webkit-scrollbar-thumb:hover {
     background-color: #555;
+}
+
+.no-history {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  color: gray;
+  font-size: 18px;
+  text-align: center;
+}
+
+.no-history p {
+  margin-top: 10px;
+}
+
+.no-history svg {
+  margin-bottom: 10px; 
 }
