@@ -10,8 +10,10 @@ import './dashboard.css';
 
 const Dashboard = () => {
   const [name, setName] = useState('');
+  const [totalSavings, setTotalSavings] = useState(0);
+  const [totalSavingsbefore, setTotalSavingsbefore] = useState(0);
   const URL = 'http://localhost:3001/api/v1/';
-  
+
   const getName = async () => {
     try {
       const userId = localStorage.getItem('userId');
@@ -31,6 +33,7 @@ const Dashboard = () => {
   }, []);
 
   const { getMonthlyTransactions } = useGlobalContext();
+  const { getCumulativeSavingsBeforeMonth } = useGlobalContext();
 
   const currentMonth = new Date().getMonth() + 1;
   const currentYear = new Date().getFullYear();
@@ -40,14 +43,19 @@ const Dashboard = () => {
   const [year, setYear] = useState(Number(localStorage.getItem('year')) || currentYear);
   const [flag, setFlag] = useState(localStorage.getItem('sortBy') !== 'all');
 
-  const [chartMonth, setChartMonth] = useState(currentMonth);
-  const [chartYear, setChartYear] = useState(currentYear);
-
   useEffect(() => {
-    localStorage.setItem('sortBy', sortBy);
-    localStorage.setItem('month', month);
-    localStorage.setItem('year', year);
-  }, [sortBy, month, year]);
+    const cumulativeSavings = getCumulativeSavingsBeforeMonth(month, year);
+    const cumulativeSavingsbefore = getCumulativeSavingsBeforeMonth(month - 1, year);
+
+    if (cumulativeSavings !== totalSavings) {
+        setTotalSavings(cumulativeSavings);
+    }
+    if (cumulativeSavingsbefore !== totalSavingsbefore) {
+        setTotalSavingsbefore(cumulativeSavingsbefore);
+    }
+}, [sortBy, month, year, totalSavings, totalSavingsbefore, getCumulativeSavingsBeforeMonth]);
+
+  
 
   const handleSortByChange = (selectedSort) => {
     setSortBy(selectedSort);
@@ -98,8 +106,6 @@ const Dashboard = () => {
     filteredtransactionHistory
   } = getMonthlyTransactions(month, year);
 
-  const chartTransactions = getMonthlyTransactions(month, year);
-
   return (
     <div className="InnerLayout">
       <div className="head">
@@ -138,8 +144,8 @@ const Dashboard = () => {
               >→</button>
             </div>
             <BarChartComponent
-              incomeData={chartTransactions.filteredIncomes}
-              expenseData={chartTransactions.filteredExpenses}
+              incomeData={filteredIncomes}
+              expenseData={filteredExpenses}
               flag={flag}
             />
           </div>
@@ -147,6 +153,8 @@ const Dashboard = () => {
             totalMonthlyIncome={totalMonthlyIncome}
             totalMonthlyExpenses={totalMonthlyExpenses}
             balance={balance}
+            totalSavings={totalSavings} 
+            totalSavingsbefore={totalSavingsbefore}
             flag={flag}
           />
         </div>
@@ -156,8 +164,8 @@ const Dashboard = () => {
             flag={flag}
           />
           <PieChart className="pie-chart-container"
-            incomeData={chartTransactions.totalMonthlyIncome}
-            expenseData={chartTransactions.totalMonthlyExpenses}
+            incomeData={totalMonthlyIncome}
+            expenseData={totalMonthlyExpenses}
             flag={flag}
           />
         </div>

@@ -120,6 +120,79 @@ export const GlobalProvider = ({ children }) => {
         return totalIncome() - totalExpenses()
     }
 
+    const getCumulativeSavingsBeforeMonth = (month, year) => {
+        let cumulativeSavings = 0;
+    
+        const startYear = 1990;
+    
+        for (let y = startYear; y <= year; y++) {
+            const finalMonth = (y === year) ? month : 12;
+    
+            for (let m = 1; m <= finalMonth; m++) {
+                const { totalMonthlyIncome, totalMonthlyExpenses } = getMonthlyTransactions(m, y);
+    
+                cumulativeSavings += totalMonthlyIncome - totalMonthlyExpenses;
+            }
+        }
+        return cumulativeSavings;
+    };
+    
+
+
+    const getMonthlySavings = () => {
+        const savingsPerMonth = [];
+    
+        const formatMonthYear = (date) => {
+            const d = new Date(date);
+            const month = d.getMonth() + 1;
+            const year = d.getFullYear();
+            return { month, year };
+        };
+    
+        const findMonthYear = (month, year) => {
+            return savingsPerMonth.find(saving => saving.month === month && saving.year === year);
+        };
+    
+        incomes.forEach((income) => {
+            const { month, year } = formatMonthYear(income.date);
+            let monthlyRecord = findMonthYear(month, year);
+    
+            if (monthlyRecord) {
+                monthlyRecord.totalIncome += income.amount;
+            } else {
+                savingsPerMonth.push({
+                    month,
+                    year,
+                    totalIncome: income.amount,
+                    totalExpenses: 0
+                });
+            }
+        });
+    
+        expenses.forEach((expense) => {
+            const { month, year } = formatMonthYear(expense.date);
+            let monthlyRecord = findMonthYear(month, year);
+    
+            if (monthlyRecord) {
+                monthlyRecord.totalExpenses += expense.amount;
+            } else {
+                savingsPerMonth.push({
+                    month,
+                    year,
+                    totalIncome: 0,
+                    totalExpenses: expense.amount
+                });
+            }
+        });
+    
+        savingsPerMonth.forEach((record) => {
+            record.savings = record.totalIncome - record.totalExpenses;
+        });
+    
+        return savingsPerMonth;
+    };
+    
+    
     const processBillImage = async (file) => {
         const formData = new FormData();
         formData.append('image', file);
@@ -254,6 +327,8 @@ export const GlobalProvider = ({ children }) => {
 
         const totalTransactions = filteredIncomes.length + filteredExpenses.length;
 
+        
+
         return {
             filteredIncomes,
             filteredExpenses,
@@ -284,6 +359,8 @@ export const GlobalProvider = ({ children }) => {
             transactionHistory,
             getMonthlyTransactions,
             processBillImage,
+            getCumulativeSavingsBeforeMonth,
+            getMonthlySavings,
         }}>
             {children}
         </GlobalContext.Provider>
