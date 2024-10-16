@@ -236,6 +236,52 @@ export const GlobalProvider = ({ children }) => {
         }
     };
 
+    const processAndExtractReceiptData = async (file) => {
+        const formData = new FormData();
+        formData.append('image', file);  // append the file correctly for the first API
+    
+        try {
+            // First API call: Process the bill image
+            const billImageResponse = await axios.post(`${URL}process-bill-image`, formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            });
+    
+            const { inference } = billImageResponse.data;
+    
+            // Extract relevant details from the first API's response
+            const description = inference.prediction.lineItems?.map((item, index) => ({
+                item: item.description || `Item ${index + 1}`,
+                quantity: item.quantity || 'N/A',
+                price: item.totalAmount || 'N/A',
+            })) || [];
+            const totalItemsPurchased = inference.prediction.lineItems?.length || 0;
+            const tax = inference.prediction.totalTax?.value || 0;
+    
+            const extractDataResponse = await axios.post('http://localhost:5000/extract-data', {
+                image_path: file.name  
+            });
+    
+            const { title, date, totalprice } = extractDataResponse.data;
+    
+            // Return the combined data from both APIs
+            return {
+                title: title || 'Store name not available',
+                date: date || 'Date not available',
+                amount: totalprice || 'Amount not available',
+                description,
+                totalItemsPurchased,
+                tax
+            };
+        } catch (error) {
+            console.error('Error processing or extracting receipt data:', error.response ? error.response.data : error.message);
+            return null;
+        }
+    };
+    
+
+
     const processInvoice = async (file) => {
         const formData = new FormData();
         formData.append('file', file);
@@ -359,6 +405,7 @@ export const GlobalProvider = ({ children }) => {
             transactionHistory,
             getMonthlyTransactions,
             processBillImage,
+            processAndExtractReceiptData,
             getCumulativeSavingsBeforeMonth,
             getMonthlySavings,
         }}>

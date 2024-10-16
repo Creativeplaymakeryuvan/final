@@ -1,4 +1,5 @@
 import React from 'react';
+import './sortBy.css'
 
 const SortBy = ({
   sortBy,
@@ -12,12 +13,6 @@ const SortBy = ({
 }) => {
   return (
     <div>
-      <div className="sort-by">
-        <select id="sortBy" value={sortBy} onChange={(e) => handleSortByChange(e.target.value)}>
-      
-          <option value="custom">Monthly</option>
-        </select>
-      </div>
 
       {sortBy === 'custom' && (
         <div className="date-selection">

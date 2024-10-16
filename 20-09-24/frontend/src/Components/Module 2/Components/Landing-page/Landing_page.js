@@ -22,13 +22,13 @@ function Landing_page() {
     switch (active) {
       case 1:
         return <Dashboard />
+      // case 2:
+      //   return <Budget />
       case 2:
-        return <Budget />
-      case 3:
         return <Transaction />
-      case 4: 
+      case 3: 
         return <Income />
-      case 5:
+      case 4:
         return <Expenses />
       default:
         return <Dashboard />

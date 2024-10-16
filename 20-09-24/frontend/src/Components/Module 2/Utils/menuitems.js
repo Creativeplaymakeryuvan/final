@@ -6,26 +6,26 @@ export const menuitems = [
         icon: <i class="fa-solid fa-house"></i>,
         link: '/dashboard'
     },
+    // {
+    //     id: 2,
+    //     title: 'Budgets',
+    //     icon: <i><GrMoney /></i>,
+    //     link: '/dashboard'
+    // },
     {
         id: 2,
-        title: 'Budgets',
-        icon: <i><GrMoney /></i>,
-        link: '/dashboard'
-    },
-    {
-        id: 3,
         title: 'View Transactions',
         icon: <i className="fa-solid fa-credit-card"></i>,
         link: '/dashboard'
     },
     {
-        id: 4,
+        id: 3,
         title: 'Incomes',
         icon: <i className="fa-solid fa-money-bill-trend-up"></i>,
         link: '/dashboard'
     },
     {
-        id: 5,
+        id: 4,
         title: 'Expenses',
         icon: <i className="fa-solid fa-money-bill-transfer"></i>,
         link: '/dashboard'

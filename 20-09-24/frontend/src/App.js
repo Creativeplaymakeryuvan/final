@@ -4,21 +4,6 @@ import Register from './Components/Module 1/Components/Register/register';
 import Landing_page from './Components/Module 2/Components/Landing-page/Landing_page';
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 
-// const router=createBrowserRouter([
-//   {
-//     path: '/',
-//     element: <div><Login/></div>
-//   },
-//   {
-//     path: '/register',
-//     element: <div><Register/></div>
-//   },
-//   {
-//     path: '/dashboard',
-//     element: <div><Dashboard/></div>
-//   }
-// ]);
-
 function App() {
 
   return (

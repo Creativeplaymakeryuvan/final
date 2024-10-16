@@ -6,7 +6,7 @@ import './expenseForm.css';
 import UpdateModal from '../Models/Modal';
 
 function ExpenseForm() {
-  const { addExpense, getExpenses, error, setError, processBillImage } = useGlobalContext();
+  const { addExpense, getExpenses, error, setError, processBillImage, processAndExtractReceiptData } = useGlobalContext();
   const userId = localStorage.getItem('userId');
 
   const currentDate = new Date().toISOString().split('T')[0]; 
@@ -88,11 +88,6 @@ function ExpenseForm() {
       alert('No file selected.');
       setSelectedFile(null);
     }
-  };
-
-
-  const handleSelectChange = (e) => {
-    setSelectedOption(e.target.value);
   };
 
   const handleImageSubmit = async (e) => {

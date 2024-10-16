@@ -39,8 +39,8 @@ const Dashboard = () => {
   const currentYear = new Date().getFullYear();
 
   const [sortBy, setSortBy] = useState(localStorage.getItem('sortBy') || 'custom');
-  const [month, setMonth] = useState(Number(localStorage.getItem('month')) || currentMonth);
-  const [year, setYear] = useState(Number(localStorage.getItem('year')) || currentYear);
+  const [month, setMonth] = useState(currentMonth);
+  const [year, setYear] = useState(currentYear);
   const [flag, setFlag] = useState(localStorage.getItem('sortBy') !== 'all');
 
   useEffect(() => {
