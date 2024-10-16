@@ -1,135 +1,129 @@
+from flask import Flask, jsonify, request
 from ultralytics import YOLO
 import cv2
 import pytesseract
 import re
+import os
 
-model = YOLO('E:\\Transformers\\best.pt')
+app = Flask(__name__)
 
-results = model.predict('E:\\Transformers\\images\\1029-receipt_jpg.rf.920e84b5652f273fa8971cade7222cd3.jpg', save=True, save_txt=True)
+# Load YOLO model
+model = YOLO('E:\\Python-server\\best(2).pt')
 
-img = cv2.imread('E:\\Transformers\\images\\1029-receipt_jpg.rf.920e84b5652f273fa8971cade7222cd3.jpg')
+@app.route('/extract-data', methods=['POST'])
+def extract_data():
+    # Image path from the POST request
+    data = request.json
+    image_path = data.get('image_path')
 
-for result in results:
-    boxes = result.boxes.xyxy
-    labels = result.boxes.cls
-    confidences = result.boxes.conf
-    names = result.names
+    if not image_path or not os.path.exists(image_path):
+        return jsonify({"error": "Image not found or invalid path."}), 400
 
-    for i, box in enumerate(boxes):
-        x1, y1, x2, y2 = map(int, box)
-        label = names[int(labels[i])]
-        confidence = confidences[i]
+    results = model.predict(image_path, save=True, save_txt=True)
 
-        roi = img[y1:y2, x1:x2]
-        custom_config = r'--psm 6'
-        text = pytesseract.image_to_string(roi, config=custom_config)
+    predicted_image_path = os.path.join('runs', 'detect', 'exp', 'image0.jpg')  
+    
+    img = cv2.imread(image_path)
 
-        text = text.strip()
+    extracted_data = {}
 
-        if label.lower() == "date":
-            print(f'Extracted value for {label}: {text}')
-        elif label.lower() == "totalprice":
-            # print(f'Extracted text for {label}: {text}')
-            total_match = re.search(r'\$?\d+\.?\d*', text)
-            extracted_value = total_match.group(0) if total_match else "No total found"
-            print(f'Extracted value for {label}: {extracted_value}')
-        elif label.lower() == "title":
-            extracted_value = text
-            print(f'Extracted value for {label}: {extracted_value}')
+    for result in results:
+        boxes = result.boxes.xyxy
+        labels = result.boxes.cls
+        confidences = result.boxes.conf
+        names = result.names
 
-        
+        for i, box in enumerate(boxes):
+            x1, y1, x2, y2 = map(int, box)
+            label = names[int(labels[i])]
+            confidence = confidences[i]
+
+            roi = img[y1:y2, x1:x2]
+            custom_config = r'--psm 6'
+            text = pytesseract.image_to_string(roi, config=custom_config).strip()
+
+            if label.lower() == "date":
+                extracted_data['date'] = text
+            elif label.lower() == "totalprice":
+                total_match = re.search(r'\$?\d+\.?\d*', text)
+                extracted_data['totalprice'] = total_match.group(0) if total_match else "No total found"
+            elif label.lower() == "title":
+                extracted_data['title'] = text
+
+    return jsonify({
+        "predicted_image_path": predicted_image_path,
+        "extracted_data": extracted_data
+    })
+
+if __name__ == '__main__':
+    app.run(debug=True, port=5000)
 
 
 
 
-
-# # 3
-
+# from flask import Flask, jsonify, request
 # from ultralytics import YOLO
 # import cv2
-# import easyocr
 # import pytesseract
-# import json
+# import re
+# import os
 
-# model = YOLO('E:\\Transformers\\best.pt')
+# app = Flask(__name__)
 
-# results = model.predict('E:\\Transformers\\images\\1000-receipt_jpg.rf.6135dc2e5cbeb3378a627ed420ec94f9.jpg', save=True, save_txt=True)
+# # Load YOLO model
+# model = YOLO('E:\\Python-server\\best.pt')
 
-# reader = easyocr.Reader(['en'])
+# @app.route('/extract-data', methods=['POST'])
+# def extract_data():
+#     # image path from the POST request
+#     data = request.json
+#     image_path = data.get('image_path')
 
-# extracted_data = []
+#     if not image_path or not os.path.exists(image_path):
+#         return jsonify({"error": "Image not found or invalid path."}), 400
 
-# image_path = 'E:\\Transformers\\images\\1000-receipt_jpg.rf.6135dc2e5cbeb3378a627ed420ec94f9.jpg'
-# img = cv2.imread(image_path)
+#     # Run YOLO model on the image
+#     results = model.predict(image_path, save=True, save_txt=True)
+#     img = cv2.imread(image_path)
+#     # Dictionary to hold extracted values
+#     extracted_data = {}
+#     # List to hold extracted items (description)
+#     extracted_data['description'] = []
 
-# if img is None:
-#     print("Image not found or could not be loaded.")
-# else:
+
+
+
+
 #     for result in results:
-#         boxes = result.boxes.xyxy  
+#         boxes = result.boxes.xyxy
 #         labels = result.boxes.cls
-#         confidences = result.boxes.conf  
+#         confidences = result.boxes.conf
 #         names = result.names
 
-#         print(f"Detected {len(boxes)} boxes with labels: {labels}")
-
-#         predictions = []
 #         for i, box in enumerate(boxes):
 #             x1, y1, x2, y2 = map(int, box)
 #             label = names[int(labels[i])]
-#             confidence = confidences[i] 
-#             predictions.append((x1, y1, x2, y2, label, confidence))
+#             confidence = confidences[i]
 
-#         for pred in predictions:
-#             x1, y1, x2, y2, label, confidence = pred
-
+#             # Extract ROI from image
 #             roi = img[y1:y2, x1:x2]
+#             custom_config = r'--psm 6'
+#             text = pytesseract.image_to_string(roi, config=custom_config).strip()
 
-#             custom_config = r'--oem 3 --psm 6'
-#             ocr_result = pytesseract.image_to_string(roi, config=custom_config)
+#             # Handle different label cases
+#             if label.lower() == "date":
+#                 extracted_data['date'] = text
+#             elif label.lower() == "totalprice":
+#                 total_match = re.search(r'\$?\d+\.?\d*', text)
+#                 extracted_data['totalprice'] = total_match.group(0) if total_match else "No total found"
+#             elif label.lower() == "title":
+#                 extracted_data['title'] = text
+#             elif label.lower() == "item" or label.lower() == "description":
+#                 # Append each detected item (description) to the list
+#                 extracted_data['description'].append(text)
 
-#             print(f"Extracted text for {label}: {ocr_result}")
+#     # Return extracted data as JSON
+#     return jsonify(extracted_data)
 
-#             extracted_data.append({
-#                 'label': label,
-#                 'confidence': float(confidence),
-#                 'extracted_text': ocr_result.strip()
-#             })
-
-#     print(json.dumps(extracted_data, indent=4))
-
-
-
-# 3
-
-# from ultralytics import YOLO
-# import cv2
-# import pytesseract
-
-# model = YOLO('E:\\Transformers\\best.pt')
-
-# results = model.predict('E:\\Transformers\\images\\1000-receipt_jpg.rf.6135dc2e5cbeb3378a627ed420ec94f9.jpg', save=True, save_txt=True)
-    
-# for result in results:
-#     boxes = result.boxes.xyxy  
-#     labels = result.boxes.cls 
-#     confidences = result.boxes.conf 
-#     names = result.names
-
-#     for i, box in enumerate(boxes):
-#         x1, y1, x2, y2 = map(int, box)
-#         label = names[int(labels[i])]
-#         confidence = confidences[i]
-
-#         print(f'Box: {box}, Label: {label}, Confidence: {confidence:.2f}')
-
-
-#         img = cv2.imread('E:\\Transformers\\images\\1000-receipt_jpg.rf.6135dc2e5cbeb3378a627ed420ec94f9.jpg')
-
-#         cropped_img = img[y1:y2, x1:x2]
-#         cv2.imwrite(f'cropped_{label}.png', cropped_img)
-
-#         text = pytesseract.image_to_string(cropped_img)
-
-#         print(f'Extracted text for {label}: {text}')
-
+# if __name__ == '__main__':
+#     app.run(debug=True, port=5000)
